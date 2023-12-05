@@ -150,3 +150,5 @@ class_probabilities = predictions[0]
 
 print("Predicted Label:", predicted_label)
 print("Class Probabilities:", class_probabilities)
+
+#aslkdfjhaskdjfha
