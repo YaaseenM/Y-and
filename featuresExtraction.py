@@ -10,8 +10,14 @@ def extract_features(file_path):
 
     # Extract Chroma Short-Time Fourier Transform features
     chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
-    chroma_stft_mean = np.mean(chroma_stft, axis=1)
-    chroma_stft_var = np.var(chroma_stft, axis=1)
+    chroma_stft_mean = np.mean(np.mean(chroma_stft, axis=1), axis=0)
+
+    variance_time = np.var(chroma_stft, axis=1)
+    variance_chroma = np.var(chroma_stft, axis=0)
+
+# Compute overall variance (mean of variances along both axes)
+    chroma_stft_var = np.mean([variance_time.mean(), variance_chroma.mean()])
+
 
     # Extract Root Mean Square (RMS) features
     rms = librosa.feature.rms(y=y)
@@ -50,9 +56,10 @@ def extract_features(file_path):
     return features
 
 # Example usage
-file_path = "path_to_your_audio_file.wav"
+file_path = "./genres_original/blues/blues.00001.wav"
 audio_features = extract_features(file_path)
 
 # Convert the features to a DataFrame for better visualization
-df = pd.DataFrame(audio_features)
-print(df)
+
+
+print(audio_features)
