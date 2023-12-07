@@ -90,7 +90,7 @@ if __name__ == "__main__":
     predicted_label = index_label[predicted_class]
 
 
-
+    print("Predicted Label:", predicted_label)
 
     tempo = extract_bpm(file_name)
 
@@ -98,22 +98,28 @@ if __name__ == "__main__":
 
     print(tempo)
     print(key)
-    prompt = ""   
+    prompt = ""
+
+    key_strength = ''
+    if(key == 'sharp'):
+        key_strength = 'vibrant'
+    else:
+        key_strength = 'muted'
 
     # use the temp to predict the mood and create the prompt
     if tempo < 100:
-        prompt = "Create an Album Cover for a " + predicted_label + " song with lazy and emotional mood"
+        prompt = "Create a " + key_strength + " album cover for a " + predicted_label + " song with lazy and emotional mood"
     elif tempo < 120:
-        prompt = "Create an Album Cover for a " + predicted_label + " song with relaxed and calm mood"
+        prompt = "Create a " + key_strength + " album cover for a " + predicted_label + " song with relaxed and calm mood"
     elif tempo < 140:
-        prompt = "Create an Album Cover for a " + predicted_label + " song with happy and energetic mood"
+        prompt = "Create a " + key_strength + " album cover for a " + predicted_label + " song with happy and energetic mood"
     else:
-        prompt = "Create an Album Cover for a " + predicted_label + " song with excited and aggressive mood"
+        prompt = "Create a " + key_strength + " album cover for a " + predicted_label + " song with excited and aggressive mood"
 
-    if key == 'sharp':
-        prompt = prompt + " and bright"
-    else:
-        prompt = prompt + " and dark"
+
+    prompt = prompt + " with no text"
+
+    print(prompt)
 
 
 
