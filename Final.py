@@ -12,19 +12,11 @@ import random
 import tensorflow as tf
 import keras as k
 import joblib
+from diffusers import DiffusionPipeline
+import torch
 
 
 
-def extract_pitch(file_name):
-    # Load audio file
-    y, sr = librosa.load(file_name)
-
-    # Extract pitch and associated information
-    #pitch, magnitudes = librosa.effects.pitch(y)
-
-    # Print the estimated pitch
-    #print("Estimated Pitch:", pitch)
-    return pitch
 
 def extract_bpm(file_name):
     y, sr = librosa.load(file_name)
@@ -86,8 +78,24 @@ if __name__ == "__main__":
     predictions = model.predict(sample_input)
 
     predicted_class = np.argmax(predictions)
+
+    index_label = {0: 'Blues', 1: 'Classical', 2: 'Country', 3: 'Disco', 4: 'Hiphop', 5: 'Jazz', 6: 'Metal', 7: 'Pop', 8: 'Reggae', 9: 'Rock'}
+
+    predicted_label = index_label[predicted_class]
+
+
+
+
+    tempo = extract_bpm(file_name)
+
+    print(tempo)   
+
+    key, key_strength = extract_key(file_name)
+
   
     print(predicted_class)
+
+
 
 
     
