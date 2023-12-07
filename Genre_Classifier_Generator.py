@@ -6,7 +6,7 @@ import sklearn.preprocessing as skp
 import random
 import tensorflow as tf
 import keras as k
-
+import joblib
 seed = 12
 np.random.seed(seed)
 
@@ -41,7 +41,10 @@ X_dev, X_test, y_dev, y_test = skms.train_test_split(df_test_valid_X, df_test_va
 
 scaler = skp.StandardScaler()
 print(X_train)
+temp = X_train
+
 X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
+joblib.dump(scaler, 'scaler.pkl')
 X_dev = pd.DataFrame(scaler.transform(X_dev), columns=X_train.columns)
 X_test = pd.DataFrame(scaler.transform(X_test), columns=X_train.columns)
 print(scaler)
@@ -66,7 +69,7 @@ model_4 = k.models.Sequential([
     k.layers.Dense(10, activation='softmax'),
 ])
 model_4.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy', metrics='accuracy')
-model_4_history = model_4.fit(X_train, y_train, validation_data=(X_dev, y_dev), epochs=20
+model_4_history = model_4.fit(X_train, y_train, validation_data=(X_dev, y_dev), epochs=400
                                 , batch_size=128)
 
 # Assuming X_train.shape[1] is the number of features expected by the model

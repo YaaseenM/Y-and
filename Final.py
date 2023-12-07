@@ -11,6 +11,7 @@ import sklearn.preprocessing as skp
 import random
 import tensorflow as tf
 import keras as k
+import joblib
 
 
 
@@ -74,19 +75,19 @@ if __name__ == "__main__":
     #use the Genre_Classifier.h5 model to predict the genre
     model = load_model('Genre_Classifier.h5')
     sample_input = features_array.reshape(1, 57)
-    scaler = skp.StandardScaler()
+    scaler = joblib.load('scaler.pkl')
 
     print(sample_input)
 
 # Standardize the input using the same scaler used for training
-    sample_input = scaler.fit_transform(sample_input)
+    sample_input = scaler.transform(sample_input)
 
     print(sample_input)
     predictions = model.predict(sample_input)
 
     predicted_class = np.argmax(predictions)
   
-    print(predictions)
+    print(predicted_class)
 
 
     
