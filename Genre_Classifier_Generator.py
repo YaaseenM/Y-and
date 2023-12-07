@@ -20,7 +20,7 @@ seed = 12
 np.random.seed(seed)
 
 #loading dataset
-df = pd.read_csv('music_features.csv')
+df = pd.read_csv('Music_Features.csv')
 df.head()
 
 #about dataset
