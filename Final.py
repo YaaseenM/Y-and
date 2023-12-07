@@ -3,16 +3,20 @@ import librosa.display
 import numpy as np
 import pandas as pd
 import sys
+from featuresExtraction import extract_features
+from keras.models import load_model
+
+
 
 def extract_pitch(file_name):
     # Load audio file
     y, sr = librosa.load(file_name)
 
     # Extract pitch and associated information
-    pitch, magnitudes = librosa.effects.pitch(y)
+    #pitch, magnitudes = librosa.effects.pitch(y)
 
     # Print the estimated pitch
-    print("Estimated Pitch:", pitch)
+    #print("Estimated Pitch:", pitch)
     return pitch
 
 def extract_bpm(file_name):
@@ -45,7 +49,31 @@ if __name__ == "__main__":
     file_name = sys.argv[1]
 
     # Call the function to extract pitch
-    pitch = extract_pitch(file_name)
+   # pitch = extract_pitch(file_name)
+
+    # Call the function to extract tempo
+    tempo = extract_bpm(file_name)
+
+    # Call the function to extract key
+    #key, key_strength = extract_key(file_name)
+
+    #use the featuresExtract.py to get the features from the wav file
+    features = extract_features(file_name)
+
+    features_array = np.array([features["chroma_stft_mean"], features["chroma_stft_var"], features["rms_mean"], features["rms_var"], features["spectral_centroid_mean"], features["spectral_centroid_var"], features["spectral_bandwidth_mean"], features["spectral_bandwidth_var"],features["rolloff_mean"], features["rolloff_var"], features["zero_crossing_rate_mean"], features["zero_crossing_rate_var"], features["harmony_mean"], features["harmony_var"], features["perceptr_mean"], features["perceptr_var"], features["tempo"]])
+    #create an array with the features
+    for i in range(20):
+        features_array = np.append(features_array, features["mfcc_mean"][i])
+        features_array = np.append(features_array, features["mfcc_var"][i])
+    #use the Genre_Classifier.h5 model to predict the genre
+    model = load_model('Genre_Classifier.h5')
+    prediction = model.predict(features_array.reshape(1, -1))
+    print(prediction)
+
+
+    
+
+
 
     
 
