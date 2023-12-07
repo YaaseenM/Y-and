@@ -67,7 +67,7 @@ if __name__ == "__main__":
         features_array = np.append(features_array, features["mfcc_var"][i])
     #use the Genre_Classifier.h5 model to predict the genre
     model = load_model('Genre_Classifier.h5')
-    prediction = model.predict(features_array.reshape(1, -1))
+    prediction = model.predict(features_array.reshape(1, 57))
     print(prediction)
 
 

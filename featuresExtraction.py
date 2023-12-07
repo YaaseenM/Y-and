@@ -98,4 +98,6 @@ def extract_features(file_path):
         "mfcc_var": mfcc_var.tolist(),
     }
 
+    print(features)
+
     return features
