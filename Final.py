@@ -27,11 +27,16 @@ def extract_bpm(file_name):
     return tempo
 
 def extract_key(file_name):
+    minor_key = [1,3,6,8,10]
+    keys = ['c','c','d','d','e','f','f','g','g','a','a','b']
     # Load audio file
     y, sr = librosa.load(file_name)
+    chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
+    key_array = np.mean(chroma_stft, axis=1)
+    key_id = np.argmax(key_array)
+    if key_id in minor_key:
+        key_strength = 'sharp'
 
-    # Estimate the key
-    key, key_strength = librosa.key.key_analysis(y=y, sr=sr)
 
     return key, key_strength
 
