@@ -27,7 +27,15 @@ def extract_bpm(file_name):
     return tempo
 
 def extract_pitch(file_name):
+    minor_key = [1,3,6,8,10]
+    keys = ['c','c','d','d','e','f','f','g','g','a','a','b']
+    # Load audio file
     y, sr = librosa.load(file_name)
+    chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
+    key_array = np.mean(chroma_stft, axis=1)
+    key_id = np.argmax(key_array)
+    if key_id in minor_key:
+        key_strength = 'sharp'
 
     # Estimate the pitch using the YIN algorithm implemented in librosa
     pitch, magnitude = librosa.core.piptrack(y=y, sr=sr)
@@ -105,7 +113,6 @@ if __name__ == "__main__":
 
 
     
-  
     print(prompt)
 
 
