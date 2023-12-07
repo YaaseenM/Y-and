@@ -26,14 +26,13 @@ def extract_bpm(file_name):
 
     return tempo
 
-def extract_key(file_name):
-    # Load audio file
+def extract_pitch(file_name):
     y, sr = librosa.load(file_name)
 
-    # Estimate the key
-    key, key_strength = librosa.key.key_analysis(y=y, sr=sr)
+    # Estimate the pitch using the YIN algorithm implemented in librosa
+    pitch, magnitude = librosa.core.piptrack(y=y, sr=sr)
 
-    return key, key_strength
+    return pitch,magnitude
 
 
 
@@ -88,12 +87,27 @@ if __name__ == "__main__":
 
     tempo = extract_bpm(file_name)
 
-    print(tempo)   
+    pitch,magnitude = extract_pitch(file_name)
 
-    key, key_strength = extract_key(file_name)
+    print(tempo)
+    print(pitch,magnitude)
+    prompt = ""   
 
+    # use the temp to predict the mood and create the prompt
+    if tempo < 100:
+        prompt = "Create an Album Cover for a " + predicted_label + " song with lazy and emotional mood"
+    elif tempo < 120:
+        prompt = "Create an Album Cover for a " + predicted_label + " song with relaxed and calm mood"
+    elif tempo < 140:
+        prompt = "Create an Album Cover for a " + predicted_label + " song with happy and energetic mood"
+    else:
+        prompt = "Create an Album Cover for a " + predicted_label + " song with excited and aggressive mood"
+
+
+    
   
-    print(predicted_class)
+    print(prompt)
+
 
 
 
