@@ -99,12 +99,3 @@ def extract_features(file_path):
     }
 
     return features
-
-# Example usage
-file_path = "./genres_original/blues/blues.00001.wav"
-audio_features = extract_features(file_path)
-
-# Convert the features to a DataFrame for better visualization
-
-
-print(audio_features)
