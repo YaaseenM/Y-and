@@ -5,6 +5,12 @@ import pandas as pd
 import sys
 from featuresExtraction import extract_features
 from keras.models import load_model
+import sklearn.metrics as skm
+import sklearn.model_selection as skms
+import sklearn.preprocessing as skp
+import random
+import tensorflow as tf
+import keras as k
 
 
 
@@ -67,8 +73,20 @@ if __name__ == "__main__":
         features_array = np.append(features_array, features["mfcc_var"][i])
     #use the Genre_Classifier.h5 model to predict the genre
     model = load_model('Genre_Classifier.h5')
-    prediction = model.predict(features_array.reshape(1, 57))
-    print(prediction)
+    sample_input = features_array.reshape(1, 57)
+    scaler = skp.StandardScaler()
+
+    print(sample_input)
+
+# Standardize the input using the same scaler used for training
+    sample_input = scaler.fit_transform(sample_input)
+
+    print(sample_input)
+    predictions = model.predict(sample_input)
+
+    predicted_class = np.argmax(predictions)
+  
+    print(predictions)
 
 
     
